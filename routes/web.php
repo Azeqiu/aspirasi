@@ -7,10 +7,26 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PengaduanCommentController;
+use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
     return redirect()->route('login');
 });
+
+// Publicly serve uploaded foto bukti (fallback when /public/storage link isn't served by the web server)
+Route::get('/storage/pengaduan/{filename}', function (string $filename) {
+    $filename = basename($filename);
+    if ($filename === '' || str_contains($filename, '..')) {
+        abort(404);
+    }
+
+    $path = 'pengaduan/' . $filename;
+    if (!Storage::disk('public')->exists($path)) {
+        abort(404);
+    }
+
+    return Storage::disk('public')->response($path);
+})->where('filename', '[^/]+');
 
 // Authentication
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');

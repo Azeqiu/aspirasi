@@ -45,8 +45,10 @@ class Pengaduan extends Model
             return null;
         }
 
-        $value = str_replace('\\', '/', (string) $this->foto_bukti);
+        $value = trim(str_replace('\\', '/', (string) $this->foto_bukti));
         $value = ltrim($value, '/');
+
+        $value = implode('/', array_map('rawurlencode', explode('/', $value)));
 
         if (Str::startsWith($value, ['http://', 'https://'])) {
             return $value;
@@ -54,15 +56,15 @@ class Pengaduan extends Model
 
         // If DB already stores a public path like "storage/pengaduan/xxx.jpg"
         if (Str::startsWith($value, 'storage/')) {
-            return asset($value);
+            return '/' . $value;
         }
 
         // If DB stores a disk-relative path like "pengaduan/xxx.jpg"
         if (Str::startsWith($value, 'pengaduan/')) {
-            return asset('storage/' . $value);
+            return '/storage/' . $value;
         }
 
         // Default: assume it's just a filename stored under storage/app/public/pengaduan
-        return asset('storage/pengaduan/' . $value);
+        return '/storage/pengaduan/' . $value;
     }
 }
