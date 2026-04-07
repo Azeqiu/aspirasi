@@ -71,7 +71,7 @@
                 <label class="field-label">Foto Bukti <span style="font-weight:400; color:var(--text-muted);">(opsional)</span></label>
                 @if($pengaduan->foto_bukti)
                     <div class="foto-preview">
-                        <img src="{{ asset('storage/pengaduan/' . $pengaduan->foto_bukti) }}" alt="Foto saat ini">
+                        <img src="{{ $pengaduan->foto_bukti_url }}" alt="Foto saat ini">
                         <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">Upload baru untuk mengganti.</div>
                     </div>
                 @endif

@@ -102,11 +102,10 @@
                                     </svg>
                                     Edit
                                 </a>
-                                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
-                                      onsubmit="return confirm('Yakin ingin menghapus akun {{ $user->name }}?')">
+                                <form id="delete-form-{{ $user->id }}" action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn-hapus">
+                                    <button type="button" class="btn-hapus js-open-delete" data-delete-form="delete-form-{{ $user->id }}">
                                         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                             <path d="M4 7h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
                                             <path d="M10 11v7M14 11v7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\PengaduanComment;
+use Illuminate\Support\Str;
 
 class Pengaduan extends Model
 {
@@ -36,5 +37,32 @@ class Pengaduan extends Model
     public function comments()
     {
         return $this->hasMany(PengaduanComment::class, 'pengaduan_id')->latest();
+    }
+
+    public function getFotoBuktiUrlAttribute(): ?string
+    {
+        if (empty($this->foto_bukti)) {
+            return null;
+        }
+
+        $value = str_replace('\\', '/', (string) $this->foto_bukti);
+        $value = ltrim($value, '/');
+
+        if (Str::startsWith($value, ['http://', 'https://'])) {
+            return $value;
+        }
+
+        // If DB already stores a public path like "storage/pengaduan/xxx.jpg"
+        if (Str::startsWith($value, 'storage/')) {
+            return asset($value);
+        }
+
+        // If DB stores a disk-relative path like "pengaduan/xxx.jpg"
+        if (Str::startsWith($value, 'pengaduan/')) {
+            return asset('storage/' . $value);
+        }
+
+        // Default: assume it's just a filename stored under storage/app/public/pengaduan
+        return asset('storage/pengaduan/' . $value);
     }
 }

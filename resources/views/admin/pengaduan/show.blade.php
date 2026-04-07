@@ -118,7 +118,7 @@
         <div class="card">
             <div class="card-header">📷 Foto Bukti</div>
             <div class="card-body foto-bukti">
-                <img src="{{ asset('storage/pengaduan/' . $pengaduan->foto_bukti) }}" alt="Foto Bukti">
+                <img src="{{ $pengaduan->foto_bukti_url }}" alt="Foto Bukti">
             </div>
         </div>
         @endif

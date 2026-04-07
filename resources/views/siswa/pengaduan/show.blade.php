@@ -70,7 +70,7 @@
             <div class="divider"></div>
             <div>
                 <div class="section-label">Foto Bukti</div>
-                <img class="foto-img" src="{{ asset('storage/pengaduan/' . $pengaduan->foto_bukti) }}" alt="Foto Bukti">
+                <img class="foto-img" src="{{ $pengaduan->foto_bukti_url }}" alt="Foto Bukti">
             </div>
         @endif
         <div class="divider"></div>

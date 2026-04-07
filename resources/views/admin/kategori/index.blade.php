@@ -63,11 +63,10 @@
                         <td>
                             <div style="display:flex; gap:6px;">
                                 <button class="btn-edit" onclick="showEdit({{ $item->id }}, '{{ $item->nama }}')">✏️ Edit</button>
-                                <form action="{{ route('admin.kategori.destroy', $item->id) }}" method="POST"
-                                      onsubmit="return confirm('Yakin hapus kategori {{ $item->nama }}?')">
+                                <form id="delete-form-{{ $item->id }}" action="{{ route('admin.kategori.destroy', $item->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn-hapus">🗑️</button>
+                                    <button type="button" class="btn-hapus js-open-delete" data-delete-form="delete-form-{{ $item->id }}">🗑️</button>
                                 </form>
                             </div>
                         </td>
