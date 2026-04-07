@@ -9,17 +9,37 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('username')->unique()->after('name');
-            $table->string('role')->default('siswa')->after('password');
-            $table->dropColumn('email');
+            if (!Schema::hasColumn('users', 'username')) {
+                $table->string('username')->unique()->after('name');
+            }
+
+            if (!Schema::hasColumn('users', 'role')) {
+                $table->string('role')->default('siswa')->after('password');
+            }
+
+            if (Schema::hasColumn('users', 'email')) {
+                // SQLite requires dropping indexes before dropping indexed columns.
+                $table->dropUnique('users_email_unique');
+                $table->dropColumn('email');
+            }
         });
     }
 
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['username', 'role']);
-            $table->string('email')->unique();
+            if (Schema::hasColumn('users', 'username')) {
+                $table->dropUnique('users_username_unique');
+                $table->dropColumn('username');
+            }
+
+            if (Schema::hasColumn('users', 'role')) {
+                $table->dropColumn('role');
+            }
+
+            if (!Schema::hasColumn('users', 'email')) {
+                $table->string('email')->unique();
+            }
         });
     }
 };
