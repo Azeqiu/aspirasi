@@ -36,9 +36,9 @@
     }
     .btn-cancel:hover { background: #f8fafc; }
     .error-box { background: #fee2e2; border: 1px solid #fecaca; border-radius: 8px; padding: 14px 18px; margin-bottom: 20px; font-size: 13px; color: #991b1b; }
-    .file-area { border: 2px dashed var(--border); border-radius: 8px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.2s; }
+    .file-area { border: 2px dashed var(--border); border-radius: 8px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
     .file-area:hover { border-color: var(--primary); background: rgba(37,99,235,0.02); }
-    .file-area input { display: none; }
+    .file-area input[type="file"] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
     #preview-img { width: 100%; max-height: 220px; object-fit: contain; border-radius: 8px; border: 1px solid var(--border); margin-top: 10px; display: none; }</style>
 @endsection
 
@@ -84,7 +84,7 @@
             </div>
             <div class="field">
                 <label class="field-label">Foto Bukti <span style="color:var(--text-muted); font-weight:400;">(opsional)</span></label>
-                <div class="file-area" onclick="document.getElementById('foto_bukti').click()">
+                <div class="file-area">
                     <div>📷 Klik untuk upload foto</div>
                     <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">JPG, PNG — Maks 2MB</div>
                     <img id="preview-img" src="" alt="Preview">
